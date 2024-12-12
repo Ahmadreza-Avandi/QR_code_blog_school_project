@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ post.title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-800 transition-all duration-300">
+  <div class="max-w-4xl mx-auto py-12 px-4">
+    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-8">
+      <button
+        onclick="window.location.href='{% url 'blog_list' %}'"
+        class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 flex items-center mb-6 transition-all"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 ml-2">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        بازگشت به لیست پست‌ها
+      </button>
+
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-auto rounded-lg shadow-lg mb-6">
+      {% endif %}
+
+      <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">{{ post.title }}</h1>
+      <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{{ post.content }}</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">تاریخ انتشار: {{ post.created_at }}</p>
+    </div>
+  </div>
+</body>
+</html>
+

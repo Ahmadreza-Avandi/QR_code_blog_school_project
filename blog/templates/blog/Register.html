@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت‌نام</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-800 flex items-center justify-center h-screen">
+
+<div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h1 class="text-3xl font-semibold text-gray-800 dark:text-white mb-6">ثبت‌نام</h1>
+
+    <form action="{% url 'register' %}" method="POST" class="space-y-4">
+        {% csrf_token %}
+        <div class="flex flex-col">
+            <label for="username" class="text-gray-600 dark:text-gray-300">نام کاربری</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="نام کاربری خود را وارد کنید"
+                class="mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
+                required
+            />
+        </div>
+
+        <div class="flex flex-col">
+            <label for="password" class="text-gray-600 dark:text-gray-300">رمز عبور</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="رمز عبور خود را وارد کنید"
+                class="mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
+                required
+            />
+        </div>
+
+        <div class="flex flex-col">
+            <label for="confirmPassword" class="text-gray-600 dark:text-gray-300">تکرار رمز عبور</label>
+            <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="تکرار رمز عبور"
+                class="mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
+                required
+            />
+        </div>
+
+        <button
+            type="submit"
+            class="w-full py-3 mt-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none"
+        >
+            ثبت‌نام
+        </button>
+
+        <button
+            type="button"
+            onclick="window.location.href='{% url 'login' %}?next={{ request.GET.next|urlencode }}'"
+            class="w-full py-3 mt-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 bg-transparent"
+        >
+            قبلاً حساب دارید؟ وارد شوید
+        </button>
+    </form>
+</div>
+
+<script>
+    // فعال‌سازی حالت تیره براساس تنظیمات سیستم
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+</body>
+</html>

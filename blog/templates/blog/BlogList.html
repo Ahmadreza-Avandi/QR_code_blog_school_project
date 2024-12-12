@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لیست پست‌ها</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-800 transition-all duration-300">
+  <div class="max-w-6xl mx-auto py-8 px-4">
+    <header class="flex justify-between items-center mb-6">
+      <h1 class="text-4xl font-bold text-gray-800 dark:text-white">لیست پست‌ها</h1>
+      <div class="flex space-x-2 rtl:space-x-reverse">
+        {% if user.is_authenticated and user.is_superuser %}
+          <button
+            onclick="window.location.href='{% url 'create_post' %}'"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-all duration-200"
+          >
+            ایجاد پست جدید
+          </button>
+        {% endif %}
+        <button
+          onclick="toggleTheme()"
+          class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-medium py-2 px-4 rounded-lg shadow-md hover:scale-105 transition-transform"
+        >
+          تغییر تم
+        </button>
+        {% if user.is_authenticated %}
+          <button
+            onclick="window.location.href='{% url 'logout' %}'"
+            class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg shadow-md"
+          >
+            خروج
+          </button>
+        {% endif %}
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for post in page_obj %}
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 overflow-hidden">
+          {% if post.image %}
+            <img
+              src="{{ post.image.url }}"
+              alt="{{ post.title }}"
+              class="w-full h-48 object-cover cursor-pointer"
+              onclick="window.location.href='{% url 'post_view' post.id %}'"
+            />
+          {% endif %}
+          <div class="p-4">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white cursor-pointer hover:text-blue-600"
+                onclick="window.location.href='{% url 'post_view' post.id %}'">
+              {{ post.title }}
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 mt-2">{{ post.content|truncatechars:100 }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">تاریخ انتشار: {{ post.created_at }}</p>
+
+            {% if user.is_authenticated and user.is_superuser %}
+              <div class="flex space-x-4 rtl:space-x-reverse mt-4">
+                <button
+                  onclick="window.location.href='{% url 'edit_post' post.id %}'"
+                  class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg shadow-md"
+                >
+                  ویرایش
+                </button>
+                <form method="post" action="{% url 'delete_post' post.id %}">
+                  {% csrf_token %}
+                  <button
+                    type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg shadow-md"
+                  >
+                    حذف
+                  </button>
+                </form>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="mt-8">
+      <nav class="flex justify-center space-x-2 rtl:space-x-reverse">
+        {% if page_obj.has_previous %}
+          <a href="?page=1" class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600">اول</a>
+          <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600">قبلی</a>
+        {% endif %}
+        <span class="px-3 py-1 bg-blue-500 text-white rounded-lg">{{ page_obj.number }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600">بعدی</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600">آخر</a>
+        {% endif %}
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>

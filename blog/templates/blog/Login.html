@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-800 flex items-center justify-center h-screen">
+    <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">ورود</h1>
+        <form action="{% url 'login' %}" method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div class="space-y-2">
+                <label for="username" class="block text-gray-600 dark:text-gray-300">نام کاربری</label>
+                <input type="text" id="username" name="username" class="w-full p-2 border rounded dark:bg-gray-800" placeholder="نام کاربری" required>
+            </div>
+            <div class="space-y-2">
+                <label for="password" class="block text-gray-600 dark:text-gray-300">رمز عبور</label>
+                <input type="password" id="password" name="password" class="w-full p-2 border rounded dark:bg-gray-800" placeholder="رمز عبور" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">ورود</button>
+        </form>
+    </div>
+</body>
+</html>
