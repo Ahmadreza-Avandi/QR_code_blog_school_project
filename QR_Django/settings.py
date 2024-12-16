@@ -20,13 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h+m%^o0-z*i@z07gg#mc^l-jtpc4g$sv)tz2z6+4*r!l2fy^g8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SECRET_KEY='test'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".vercel.app" , "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -49,6 +48,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+"django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
 
 ROOT_URLCONF = 'QR_Django.urls'
@@ -116,15 +118,20 @@ USE_TZ = True
 
 LOGIN_URL = '/login/'  # مسیر صفحه لاگین
 
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# اگر STATIC_URL قبلاً تنظیم نشده است:
-STATIC_URL = '/static/' 
+
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

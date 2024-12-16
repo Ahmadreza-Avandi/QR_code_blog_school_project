@@ -1,0 +1,1 @@
+web: gunicorn QR_Django.wsgi
